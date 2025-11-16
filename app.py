@@ -194,12 +194,12 @@ if not st.session_state['logged_in']:
                     st.error("❌ Invalid username or password")
         
         with col_btn2:
-        if st.button("👤 Guest Login", use_container_width=True):
-                st.session_state['logged_in'] = True
-                st.session_state['username'] = 'guest'
-                st.session_state['guest_login_time'] = time.time()
-                    st.success("Logged in as guest user! Session will expire in 5 minutes.")
-                st.rerun()
+    if st.button("👤 Guest Login", use_container_width=True):
+            st.session_state['logged_in'] = True
+            st.session_state['username'] = 'guest'
+            st.session_state['guest_login_time'] = time.time()
+                st.success("Logged in as guest user! Session will expire in 5 minutes.")
+            st.rerun()
 
     # Create new account button
     st.markdown("<div style='text-align: center; margin-top: 20px;'>", unsafe_allow_html=True)
