@@ -6,7 +6,7 @@ import os
 # Configure Gemini API
 api_key = os.getenv('GEMINI_API_KEY', 'AIzaSyAVy-ehtUQ81DRwsE5BmW5U4cpmNfu_bvE')
 genai.configure(api_key=api_key)
-model = genai.GenerativeModel('gemini-pro')
+model = genai.GenerativeModel('gemini-1.5-flash')
 
 st.set_page_config(page_title="StudyBuddy AI", layout="wide", page_icon="📚")
 
