@@ -199,8 +199,6 @@ if not st.session_state['logged_in']:
                 st.success("Logged in as demo user!")
                 st.rerun()
         
-        st.info("💡 **Demo Credentials:** username: `demo` password: `demo123`")
-        st.info("💡 **Student Login:** username: `student` password: `study123`")
 
     # Toggle between login and signup
     st.markdown("---")
