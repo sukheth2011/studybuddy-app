@@ -13,7 +13,7 @@ st.set_page_config(page_title="StudyBuddy AI", layout="wide", page_icon="📚")
 if 'logged_in' not in st.session_state:
     st.session_state['logged_in'] = False
     st.session_state['username'] = ''
-        st.session_state['show_signup'] = False
+    st.session_state['show_signup'] = False
     if 'registered_users' not in st.session_state:
         st.session_state['registered_users'] = {'student': 'study123', 'demo': 'demo123'}
 
