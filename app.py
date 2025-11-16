@@ -117,6 +117,41 @@ elif menu == "📅 Exam Countdown":
 # Notes
 elif menu == "🗒️ Notes":
     st.markdown('<p class="sub-header">Subject Notes</p>', unsafe_allow_html=True)
+        
+    st.markdown("### 🤖 Generate AI Notes")
+    chapter_topic = st.text_input("📝 Enter chapter name or topic:")
+    subject = st.selectbox("Subject:", ["Math", "Science", "English", "History", "Physics", "Chemistry", "Biology"])
+    
+    if st.button("🚀 Generate Notes"):
+        if chapter_topic:
+            with st.spinner("Generating comprehensive notes..."):
+                try:
+                    prompt = f"""Create comprehensive study notes for a 9th grade {subject} student on the topic: {chapter_topic}.
+                    
+                    Include:
+                    1. Key Concepts and Definitions
+                    2. Important Points to Remember
+                    3. Examples
+                    4. Common Mistakes to Avoid
+                    5. Quick Tips for Exam Preparation
+                    
+                    Make it clear, concise, and easy to understand."""
+                    
+                    response = model.generate_content(prompt)
+                    st.success("✅ Notes Generated!")
+                    st.markdown("---")
+                    st.markdown(response.text)
+                    
+                    if "all_notes" not in st.session_state:
+                        st.session_state["all_notes"] = []
+                    st.session_state["all_notes"].append({"subject": subject, "topic": chapter_topic, "notes": response.text, "date": date.today()})
+                    st.info("💾 Notes saved to 'Saved Notes' section below!")
+                except:
+                    st.error("Error generating notes. Please try again.")
+        else:
+            st.warning("Please enter a chapter or topic name!")
+    
+    st.markdown("---")
     if "all_notes" not in st.session_state:
         st.session_state["all_notes"] = []
     
@@ -135,6 +170,61 @@ elif menu == "🗒️ Notes":
 # Flashcards
 elif menu == "🎴 Flashcards":
     st.markdown('<p class="sub-header">Study Flashcards</p>', unsafe_allow_html=True)
+        
+    st.markdown("### 🤖 Generate AI Flashcards")
+    chapter_topic = st.text_input("📝 Enter chapter name or topic:", key="flashcard_topic")
+    subject = st.selectbox("Subject:", ["Math", "Science", "English", "History", "Physics", "Chemistry", "Biology"], key="flashcard_subject")
+    num_cards = st.slider("Number of flashcards:", 5, 20, 10)
+    
+    if st.button("🚀 Generate Flashcards"):
+        if chapter_topic:
+            with st.spinner(f"Generating {num_cards} flashcards..."):
+                try:
+                    prompt = f"""Create exactly {num_cards} study flashcards for a 9th grade {subject} student on the topic: {chapter_topic}.
+                    
+                    Format each flashcard as:
+                    Q: [Question]
+                    A: [Answer]
+                    
+                    Make questions clear and concise. Keep answers brief but complete.
+                    Cover the most important concepts."""
+                    
+                    response = model.generate_content(prompt)
+                    flashcards_text = response.text
+                    
+                    cards = []
+                    lines = flashcards_text.split('\n')
+                    current_q = ""
+                    current_a = ""
+                    
+                    for line in lines:
+                        line = line.strip()
+                        if line.startswith('Q:'):
+                            if current_q and current_a:
+                                cards.append({"q": current_q, "a": current_a})
+                            current_q = line[2:].strip()
+                            current_a = ""
+                        elif line.startswith('A:'):
+                            current_a = line[2:].strip()
+                    
+                    if current_q and current_a:
+                        cards.append({"q": current_q, "a": current_a})
+                    
+                    if cards:
+                        if "flashcards" not in st.session_state:
+                            st.session_state["flashcards"] = []
+                        st.session_state["flashcards"].extend(cards)
+                        
+                        st.success(f"✅ Generated {len(cards)} flashcards!")
+                        st.info("👇 Scroll down to 'Your Flashcards' to study them!")
+                    else:
+                        st.error("Could not parse flashcards. Please try again.")
+                except Exception as e:
+                    st.error(f"Error generating flashcards: {str(e)}")
+        else:
+            st.warning("Please enter a chapter or topic name!")
+    
+    st.markdown("---")
     if "flashcards" not in st.session_state:
         st.session_state["flashcards"] = []
     
