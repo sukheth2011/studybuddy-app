@@ -56,7 +56,8 @@ elif menu == "📝 AI Homework Helper":
                     st.success("✅ Answer:")
                     st.write(response.text)
                 except Exception as e:
-                    st.error(f"Error: {str(e)}")        else:
+                    st.error(f"Error: {str(e)}")       
+                else:
             st.warning("Please enter a question!")
 
 # To-Do List
