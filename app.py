@@ -13,14 +13,13 @@ st.set_page_config(page_title="StudyBuddy AI", layout="wide", page_icon="📚")
 if 'logged_in' not in st.session_state:
     st.session_state['logged_in'] = False
     st.session_state['username'] = ''
+        st.session_state['show_signup'] = False
+    if 'registered_users' not in st.session_state:
+        st.session_state['registered_users'] = {'student': 'study123', 'demo': 'demo123'}
 
 def check_credentials(username, password):
     # Simple authentication - you can enhance this
-    users = {
-        'student': 'study123',
-        'demo': 'demo123'
-    }
-    return users.get(username) == password
+    return st.session_state['registered_users'].get(username) == password
 
 if not st.session_state['logged_in']:
     st.markdown('<p class="main-header">📚 StudyBuddy AI Login</p>', unsafe_allow_html=True)
@@ -52,6 +51,47 @@ if not st.session_state['logged_in']:
         
         st.info("💡 **Demo Credentials:** username: `demo` password: `demo123`")
         st.info("💡 **Student Login:** username: `student` password: `study123`")
+
+    # Toggle between login and signup
+    st.markdown("---")
+    if not st.session_state['show_signup']:
+        if st.button("✨ Create New Account"):
+            st.session_state['show_signup'] = True
+            st.rerun()
+    else:
+        st.markdown("### 📝 Create Your Account")
+        with st.form("signup_form"):
+            new_username = st.text_input("👤 Choose Username", placeholder="Enter a username")
+            new_password = st.text_input("🔒 Choose Password", type="password", placeholder="Enter a password")
+            confirm_password = st.text_input("🔒 Confirm Password", type="password", placeholder="Confirm your password")
+            
+            col1, col2 = st.columns(2)
+            with col1:
+                signup_button = st.form_submit_button("🚀 Sign Up")
+            with col2:
+                back_button = st.form_submit_button("← Back to Login")
+            
+            if signup_button:
+                if not new_username or not new_password:
+                    st.error("❌ Please fill in all fields")
+                elif new_password != confirm_password:
+                    st.error("❌ Passwords don't match!")
+                elif new_username in st.session_state['registered_users']:
+                    st.error("❌ Username already exists!")
+                elif len(new_password) < 6:
+                    st.error("❌ Password must be at least 6 characters")
+                else:
+                    # Register the new user
+                    st.session_state['registered_users'][new_username] = new_password
+                    st.success(f"✅ Account created successfully! Welcome {new_username}!")
+                    st.session_state['logged_in'] = True
+                    st.session_state['username'] = new_username
+                    st.session_state['show_signup'] = False
+                    st.rerun()
+            
+            if back_button:
+                st.session_state['show_signup'] = False
+                st.rerun()
     
     st.stop()
 
