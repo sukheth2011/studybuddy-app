@@ -9,6 +9,52 @@ genai.configure(api_key=api_key)
 model = genai.GenerativeModel('gemini-2.5-flash')
 st.set_page_config(page_title="StudyBuddy AI", layout="wide", page_icon="📚")
 
+# Login System
+if 'logged_in' not in st.session_state:
+    st.session_state['logged_in'] = False
+    st.session_state['username'] = ''
+
+def check_credentials(username, password):
+    # Simple authentication - you can enhance this
+    users = {
+        'student': 'study123',
+        'demo': 'demo123'
+    }
+    return users.get(username) == password
+
+if not st.session_state['logged_in']:
+    st.markdown('<p class="main-header">📚 StudyBuddy AI Login</p>', unsafe_allow_html=True)
+    st.write("**Welcome! Please login to access your study dashboard**")
+    
+    col1, col2, col3 = st.columns([1,2,1])
+    with col2:
+        st.markdown("### 🔐 Login")
+        username = st.text_input("Username", placeholder="Enter your username")
+        password = st.text_input("Password", type="password", placeholder="Enter your password")
+        
+        col_btn1, col_btn2 = st.columns(2)
+        with col_btn1:
+            if st.button("🚀 Login", use_container_width=True):
+                if check_credentials(username, password):
+                    st.session_state['logged_in'] = True
+                    st.session_state['username'] = username
+                    st.success(f"Welcome back, {username}!")
+                    st.rerun()
+                else:
+                    st.error("❌ Invalid username or password")
+        
+        with col_btn2:
+            if st.button("📝 Demo Login", use_container_width=True):
+                st.session_state['logged_in'] = True
+                st.session_state['username'] = 'demo'
+                st.success("Logged in as demo user!")
+                st.rerun()
+        
+        st.info("💡 **Demo Credentials:** username: `demo` password: `demo123`")
+        st.info("💡 **Student Login:** username: `student` password: `study123`")
+    
+    st.stop()
+
 # Custom CSS
 st.markdown("""
 <style>
@@ -19,6 +65,13 @@ st.markdown("""
 
 st.markdown('<p class="main-header">📚 StudyBuddy AI: Your Smart Study Companion</p>', unsafe_allow_html=True)
 st.write("**Powered by AI - Get instant answers to homework, exam prep & study questions!**")
+
+# User info in sidebar
+st.sidebar.success(f"👤 Logged in as: **{st.session_state['username']}**")
+if st.sidebar.button("🚪 Logout"):
+    st.session_state['logged_in'] = False
+    st.session_state['username'] = ''
+    st.rerun()
 
 # Sidebar Navigation
 menu = st.sidebar.radio("Navigate", ["📚 Dashboard", "📝 AI Homework Helper", "📋 To-Do List", "📅 Exam Countdown", "🗒️ Notes", "🎴 Flashcards", "📖 Resources"])
