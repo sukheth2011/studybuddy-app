@@ -1,0 +1,175 @@
+import streamlit as st
+from datetime import date, timedelta
+import google.generativeai as genai
+import os
+
+# Configure Gemini API
+api_key = os.getenv('GEMINI_API_KEY', 'AIzaSyAVy-ehtUQ81DRwsE5BmW5U4cpmNfu_bvE')
+genai.configure(api_key=api_key)
+model = genai.GenerativeModel('gemini-pro')
+
+st.set_page_config(page_title="StudyBuddy AI", layout="wide", page_icon="📚")
+
+# Custom CSS
+st.markdown("""
+<style>
+.main-header {font-size: 2.5rem; color: #4CAF50; font-weight: bold;}
+.sub-header {font-size: 1.5rem; color: #2196F3;}
+</style>
+""", unsafe_allow_html=True)
+
+st.markdown('<p class="main-header">📚 StudyBuddy AI: Your Smart Study Companion</p>', unsafe_allow_html=True)
+st.write("**Powered by AI - Get instant answers to homework, exam prep & study questions!**")
+
+# Sidebar Navigation
+menu = st.sidebar.radio("Navigate", ["📚 Dashboard", "📝 AI Homework Helper", "📋 To-Do List", "📅 Exam Countdown", "🗒️ Notes", "🎴 Flashcards", "📖 Resources"])
+
+# Dashboard
+if menu == "📚 Dashboard":
+    st.markdown('<p class="sub-header">Welcome to StudyBuddy AI!</p>', unsafe_allow_html=True)
+    col1, col2, col3 = st.columns(3)
+    with col1:
+        st.info("✅ AI-Powered Answers")
+    with col2:
+        st.info("📊 Track Progress")
+    with col3:
+        st.info("⚡ Quick Study Tools")
+    st.write("### Quick Stats")
+    tasks = st.session_state.get("tasks", [])
+    completed = len([t for t in tasks if t.get("done")])
+    st.metric("Tasks Completed", completed)
+
+# AI Homework Helper
+elif menu == "📝 AI Homework Helper":
+    st.markdown('<p class="sub-header">AI Homework & Question Solver</p>', unsafe_allow_html=True)
+    st.write("Ask any homework question, get explanations, solve math problems, and more!")
+    
+    subject = st.selectbox("Select Subject", ["Math", "Science", "English", "History", "Geography", "Physics", "Chemistry", "Biology"])
+    question = st.text_area("Enter your question or homework problem:", height=150)
+    
+    if st.button("🚀 Get AI Answer"):
+        if question:
+            with st.spinner("🤔 AI is thinking..."):
+                try:
+                    prompt = f"You are a helpful tutor for high school students. Subject: {subject}. Question: {question}"
+                    response = model.generate_content(prompt)
+                    st.success("✅ Answer:")
+                    st.write(response.text)
+                except Exception as e:
+                    st.error("⚠️ Please add your Gemini API key in the code! Get it free at https://aistudio.google.com/")
+        else:
+            st.warning("Please enter a question!")
+
+# To-Do List
+elif menu == "📋 To-Do List":
+    st.markdown('<p class="sub-header">Homework & Task Tracker</p>', unsafe_allow_html=True)
+    if "tasks" not in st.session_state:
+        st.session_state["tasks"] = []
+    
+    col1, col2 = st.columns([3, 1])
+    with col1:
+        new_task = st.text_input("Add a new task")
+    with col2:
+        priority = st.selectbox("Priority", ["🔴 High", "🟡 Medium", "🟢 Low"])
+    
+    if st.button("➕ Add Task") and new_task:
+        st.session_state["tasks"].append({"task": new_task, "done": False, "priority": priority})
+    
+    st.write("### Your Tasks")
+    for idx, t in enumerate(st.session_state["tasks"]):
+        col1, col2, col3 = st.columns([0.5, 3, 1])
+        with col1:
+            done = st.checkbox("", value=t["done"], key=f"task_{idx}")
+            st.session_state["tasks"][idx]["done"] = done
+        with col2:
+            if done:
+                st.write(f"~~{t['priority']} {t['task']}~~")
+            else:
+                st.write(f"{t['priority']} {t['task']}")
+        with col3:
+            if st.button("🗑️", key=f"del_{idx}"):
+                st.session_state["tasks"].pop(idx)
+                st.rerun()
+
+# Exam Countdown
+elif menu == "📅 Exam Countdown":
+    st.markdown('<p class="sub-header">Exam Countdown Timer</p>', unsafe_allow_html=True)
+    if "exams" not in st.session_state:
+        st.session_state["exams"] = []
+    
+    col1, col2 = st.columns(2)
+    with col1:
+        exam_name = st.text_input("Exam Name")
+    with col2:
+        exam_date = st.date_input("Exam Date", value=date.today()+timedelta(days=7))
+    
+    if st.button("➕ Add Exam"):
+        st.session_state["exams"].append({"name": exam_name, "date": exam_date})
+    
+    st.write("### Upcoming Exams")
+    for exam in st.session_state["exams"]:
+        days_left = (exam["date"] - date.today()).days
+        if days_left >= 0:
+            st.info(f"***{exam['name']}** - {days_left} days left! ({exam['date']})")
+        else:
+            st.success(f"***{exam['name']}** - Completed")
+
+# Notes
+elif menu == "🗒️ Notes":
+    st.markdown('<p class="sub-header">Subject Notes</p>', unsafe_allow_html=True)
+    if "all_notes" not in st.session_state:
+        st.session_state["all_notes"] = []
+    
+    note_subject = st.selectbox("Subject", ["Math", "Science", "English", "History", "Physics", "Chemistry", "Biology"])
+    note = st.text_area("Write your notes here...", height=200)
+    
+    if st.button("📝 Save Note"):
+        st.session_state["all_notes"].append({"subject": note_subject, "note": note, "date": date.today()})
+        st.success("Note saved!")
+    
+    st.write("### Saved Notes")
+    for n in st.session_state["all_notes"]:
+        with st.expander(f"📚 {n['subject']} - {n['date']}"):
+            st.write(n["note"])
+
+# Flashcards
+elif menu == "🎴 Flashcards":
+    st.markdown('<p class="sub-header">Study Flashcards</p>', unsafe_allow_html=True)
+    if "flashcards" not in st.session_state:
+        st.session_state["flashcards"] = []
+    
+    col1, col2 = st.columns(2)
+    with col1:
+        question = st.text_input("Question")
+    with col2:
+        answer = st.text_input("Answer")
+    
+    if st.button("➕ Add Flashcard"):
+        st.session_state["flashcards"].append({"q": question, "a": answer})
+    
+    st.write("### Your Flashcards")
+    for idx, fc in enumerate(st.session_state["flashcards"]):
+        with st.expander(f"❓ {fc['q']}"):
+            st.success(f"✅ {fc['a']}")
+
+# Resources
+elif menu == "📖 Resources":
+    st.markdown('<p class="sub-header">Quick Study Resources</p>', unsafe_allow_html=True)
+    st.markdown("""
+    ### 📚 Learning Platforms
+    - [Khan Academy](https://www.khanacademy.org/) - Free courses
+    - [NCERT Books](https://ncert.nic.in/textbook.php) - Indian curriculum
+    - [BBC Bitesize](https://www.bbc.co.uk/bitesize) - UK curriculum
+    
+    ### 🧮 Tools
+    - [Wolfram Alpha](https://www.wolframalpha.com/) - Math solver
+    - [Quizlet](https://quizlet.com/) - Flashcards
+    - [Grammarly](https://www.grammarly.com/) - Writing help
+    
+    ### 🎥 Video Learning
+    - [YouTube Edu](https://www.youtube.com/education)
+    - [CrashCourse](https://thecrashcourse.com/)
+    """)
+    
+    st.sidebar.info("💡 **Tip:** Use AI Helper for instant answers!")
+    st.sidebar.success("🚀 Powered by Gemini AI & Python")
