@@ -6,8 +6,7 @@ import os
 # Configure Gemini API
 api_key = st.secrets["GEMINI_API_KEY"]
 genai.configure(api_key=api_key)
-model = genai.GenerativeModel('gemini-pro')
-st.set_page_config(page_title="StudyBuddy AI", layout="wide", page_icon="📚")
+model = genai.GenerativeModel('gemini-2.5-flash')st.set_page_config(page_title="StudyBuddy AI", layout="wide", page_icon="📚")
 
 # Custom CSS
 st.markdown("""
