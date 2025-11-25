@@ -179,31 +179,31 @@ if st.session_state.get('show_signup', False):
         st.write("**Fill in the details to create your study account**")
     
         col1, col2, col3 = st.columns([1,2,1])
-    with col2:
-        st.markdown("### ✨ Sign Up")
-        new_username = st.text_input("Choose Username", placeholder="Enter a username", key="new_user")
-        new_password = st.text_input("Choose Password", type="password", placeholder="Enter a password", key="new_pass")
-        confirm_password = st.text_input("Confirm Password", type="password", placeholder="Re-enter password", key="confirm_pass")
-        
-        col_signup, col_back = st.columns(2)
-        with col_signup:
-            if st.button("🎉 Create Account", use_container_width=True):
-                if new_password != confirm_password:
-                    st.error("❌ Passwords don't match!")
-                elif new_username in st.session_state['registered_users']:
-                    st.error("❌ Username already exists!")
-                elif len(new_username) < 3 or len(new_password) < 6:
-                    st.error("❌ Username must be 3+ chars, password must be 6+ chars!")
-                else:
-                    st.session_state['registered_users'][new_username] = new_password
-                    st.success(f"✅ Account created for {new_username}! You can now login.")
+        with col2:
+            st.markdown("### ✨ Sign Up")
+            new_username = st.text_input("Choose Username", placeholder="Enter a username", key="new_user")
+            new_password = st.text_input("Choose Password", type="password", placeholder="Enter a password", key="new_pass")
+            confirm_password = st.text_input("Confirm Password", type="password", placeholder="Re-enter password", key="confirm_pass")
+            
+            col_signup, col_back = st.columns(2)
+            with col_signup:
+                if st.button("🎉 Create Account", use_container_width=True):
+                    if new_password != confirm_password:
+                        st.error("❌ Passwords don't match!")
+                    elif new_username in st.session_state['registered_users']:
+                        st.error("❌ Username already exists!")
+                    elif len(new_username) < 3 or len(new_password) < 6:
+                        st.error("❌ Username must be 3+ chars, password must be 6+ chars!")
+                    else:
+                        st.session_state['registered_users'][new_username] = new_password
+                        st.success(f"✅ Account created for {new_username}! You can now login.")
+                        st.session_state['show_signup'] = False
+                        st.rerun()
+            
+            with col_back:
+                if st.button("◀️ Back to Login", use_container_width=True):
                     st.session_state['show_signup'] = False
                     st.rerun()
-        
-        with col_back:
-            if st.button("◀️ Back to Login", use_container_width=True):
-                st.session_state['show_signup'] = False
-                st.rerun()
 
 elif not st.session_state['logged_in']:
     st.markdown('<p class="main-header">📚 StudyBuddy AI Login</p>', unsafe_allow_html=True)
