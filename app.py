@@ -21,23 +21,49 @@ st.markdown("""
                                         border-bottom: 10px solid #000000;
                                                     border-left: 10px solid #000000;
                                                                 border-right: 10px solid #000000;
+                                                                            padding: 20px;
+                                                                                        border-radius: 15px;
+                                                                                                    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+                                                                                                                max-width: 1200px;
+                                                                                                                            margin: 0 auto;
     }
 
         /* Input fields and text areas with black borders */
     .stTextInput > div > div > input, .stTextArea > div > div > textarea {
         border: 1px solid #000000 !important;
         color: #000000 !important;
+                border-radius: 10px !important;
+                        padding: 15px !important;
+                                box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15) !important;
+                                        font-size: 16px !important;
     }
     
     /* Buttons with black borders */
     .stButton > button {
         border: 1px solid #000000 !important;
         color: #000000 !important;
+                border-radius: 12px !important;
+                        padding: 12px 30px !important;
+                                box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2) !important;
+                                        font-size: 16px !important;
+                                                font-weight: 600 !important;
+                                                        transition: all 0.3s ease !important;
+
+                                                            /* Button hover effects */
+                                                                .stButton > button:hover {
+                                                                        transform: translateY(-2px) !important;
+                                                                                box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3) !important;
+                                                                                        background-color: #0056b3 !important;
+                                                                                            }
     }
     
     /* Tab containers with black borders */
     .stTabs {
         border-bottom: 1px solid #000000 !important;
+                border-radius: 10px 10px 0 0 !important;
+                        padding: 10px 20px !important;
+                                box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15) !important;
+                                        font-weight: 600 !important;
     }
     
     /* Hide Streamlit branding */
@@ -54,6 +80,9 @@ st.markdown("""
     /* Text styling */
     h1, h2, h3 {
         color: #000000 !important;
+            font-weight: 700 !important;
+                text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1) !important;
+                    margin-bottom: 20px !important;
     }
     
     p {
@@ -66,6 +95,7 @@ st.markdown("""
         border-radius: 15px !important;
         padding: 12px !important;
         font-size: 16px !important;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1) !important;
         color: #333 !important;
         box-shadow: 0 4px 15px rgba(0,0,0,0.1) !important;
         transition: all 0.3s ease !important;
