@@ -259,3 +259,110 @@ else:
         remaining_minutes = remaining_seconds // 60
         remaining_secs = remaining_seconds % 60
         st.warning(f"⏰ Guest Session - Time Remaining: {remaining_minutes}:{remaining_secs:02d} minutes")
+
+    # StudyBuddy AI Dashboard
+    st.markdown(f"### 👋 Welcome, {st.session_state['username']}!")
+    st.markdown("---")
+    
+    # Tabs for different features
+    tab1, tab2, tab3 = st.tabs(["💬 AI Chat", "📝 Homework Help", "📚 Exam Prep"])
+    
+    with tab1:
+        st.markdown("### 🤖 AI Study Assistant")
+        st.write("Ask me anything about your studies!")
+        
+        # Initialize chat history
+        if 'chat_history' not in st.session_state:
+            st.session_state['chat_history'] = []
+        
+        # Display chat history
+        for message in st.session_state['chat_history']:
+            if message['role'] == 'user':
+                st.markdown(f"**You:** {message['content']}")
+            else:
+                st.markdown(f"**StudyBuddy:** {message['content']}")
+        
+        # Chat input
+        user_question = st.text_input("Ask your question:", key="chat_input")
+        
+        if st.button("📤 Send", key="send_btn"):
+            if user_question:
+                # Add user message
+                st.session_state['chat_history'].append({'role': 'user', 'content': user_question})
+                
+                # Get AI response
+                try:
+                    response = model.generate_content(f"You are a helpful study assistant for high school students. Answer this question clearly and concisely: {user_question}")
+                    ai_response = response.text
+                    st.session_state['chat_history'].append({'role': 'assistant', 'content': ai_response})
+                    st.rerun()
+                except Exception as e:
+                    st.error(f"Error: {str(e)}")
+    
+    with tab2:
+        st.markdown("### 📝 Homework Help")
+        st.write("Get help with your homework!")
+        
+        subject = st.selectbox("Select Subject:", ["Math", "Physics", "Chemistry", "Biology", "English", "History", "Other"])
+        
+        homework_question = st.text_area("Describe your homework problem:", height=150)
+        
+        if st.button("💡 Get Help", key="homework_btn"):
+            if homework_question:
+                with st.spinner("Thinking..."):
+                    try:
+                        prompt = f"You are a helpful tutor. Help this high school student with their {subject} homework. Explain step-by-step:\n\n{homework_question}"
+                        response = model.generate_content(prompt)
+                        st.success("✅ Here's your solution:")
+                        st.markdown(response.text)
+                    except Exception as e:
+                        st.error(f"Error: {str(e)}")
+            else:
+                st.warning("Please describe your homework problem first!")
+    
+    with tab3:
+        st.markdown("### 🎯 Exam Preparation")
+        st.write("Prepare for your exams with practice questions!")
+        
+        exam_subject = st.selectbox("Select Subject:", ["Math", "Physics", "Chemistry", "Biology", "English", "History"], key="exam_subject")
+        
+        topic = st.text_input("Enter topic to study:")
+        
+        col1, col2 = st.columns(2)
+        
+        with col1:
+            if st.button("📊 Generate Practice Questions"):
+                if topic:
+                    with st.spinner("Generating questions..."):
+                        try:
+                            prompt = f"Generate 5 practice questions for high school {exam_subject} on the topic: {topic}. Include a mix of easy, medium, and hard questions."
+                            response = model.generate_content(prompt)
+                            st.success("✅ Practice Questions:")
+                            st.markdown(response.text)
+                        except Exception as e:
+                            st.error(f"Error: {str(e)}")
+                else:
+                    st.warning("Please enter a topic!")
+        
+        with col2:
+            if st.button("📖 Get Study Summary"):
+                if topic:
+                    with st.spinner("Creating summary..."):
+                        try:
+                            prompt = f"Create a concise study summary for high school {exam_subject} on the topic: {topic}. Include key concepts and important points."
+                            response = model.generate_content(prompt)
+                            st.success("✅ Study Summary:")
+                            st.markdown(response.text)
+                        except Exception as e:
+                            st.error(f"Error: {str(e)}")
+                else:
+                    st.warning("Please enter a topic!")
+    
+    # Logout button
+    st.markdown("---")
+    if st.button("🚪 Logout"):
+        st.session_state['logged_in'] = False
+        st.session_state['username'] = ''
+        if 'chat_history' in st.session_state:
+            del st.session_state['chat_history']
+        st.rerun()
