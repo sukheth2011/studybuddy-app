@@ -15,7 +15,7 @@ st.markdown("""
 <style>
     /* Main background with gradient */
     .stApp {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+        background: #f5f5f5;
     }
     
     /* Hide Streamlit branding */
