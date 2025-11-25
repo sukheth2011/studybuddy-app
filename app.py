@@ -16,6 +16,24 @@ st.markdown("""
     /* Main background with gradient */
     .stApp {
         background: #f5f5f5;
+                color: #000000;
+    }
+
+        /* Input fields and text areas with black borders */
+    .stTextInput > div > div > input, .stTextArea > div > div > textarea {
+        border: 1px solid #000000 !important;
+        color: #000000 !important;
+    }
+    
+    /* Buttons with black borders */
+    .stButton > button {
+        border: 1px solid #000000 !important;
+        color: #000000 !important;
+    }
+    
+    /* Tab containers with black borders */
+    .stTabs {
+        border-bottom: 1px solid #000000 !important;
     }
     
     /* Hide Streamlit branding */
@@ -31,13 +49,11 @@ st.markdown("""
     
     /* Text styling */
     h1, h2, h3 {
-        color: white !important;
-        text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        color: #000000 !important;
     }
     
     p {
-        color: white !important;
-    }
+        color: #000000 !important;
     
     /* Input fields styling */
     .stTextInput > div > div > input {
