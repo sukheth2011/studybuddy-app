@@ -198,7 +198,7 @@ if not st.session_state['logged_in']:
                 st.session_state['logged_in'] = True
                 st.session_state['username'] = 'guest'
                 st.session_state['guest_login_time'] = time.time()
-                    st.success("Logged in as guest user! Session will expire in 5 minutes.")
+                st.success("Logged in as guest user! Session will expire in 5 minutes.")
                 st.rerun()
 
     # Create new account button
