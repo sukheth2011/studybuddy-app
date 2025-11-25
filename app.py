@@ -22,7 +22,7 @@ st.markdown("""
                                                     border-left: 10px solid #000000;
                                                                 border-right: 10px solid #000000;
                                                                             padding: 20px;
-                                                                                        border-radius: 15px;
+                                                                                        border-radius: 50px;
                                                                                                     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
                                                                                                                 max-width: 1200px;
                                                                                                                             margin: 0 auto;
@@ -32,7 +32,7 @@ st.markdown("""
     .stTextInput > div > div > input, .stTextArea > div > div > textarea {
         border: 1px solid #000000 !important;
         color: #000000 !important;
-                border-radius: 10px !important;
+                border-radius: 50px !important;
                         padding: 15px !important;
                                 box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15) !important;
                                         font-size: 16px !important;
@@ -42,7 +42,7 @@ st.markdown("""
     .stButton > button {
         border: 1px solid #000000 !important;
         color: #000000 !important;
-                border-radius: 12px !important;
+                border-radius: 50px !important;
                         padding: 12px 30px !important;
                                 box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2) !important;
                                         font-size: 16px !important;
@@ -60,7 +60,7 @@ st.markdown("""
     /* Tab containers with black borders */
     .stTabs {
         border-bottom: 1px solid #000000 !important;
-                border-radius: 10px 10px 0 0 !important;
+                border-radius: 50px 10px 0 0 !important;
                         padding: 10px 20px !important;
                                 box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15) !important;
                                         font-weight: 600 !important;
@@ -92,7 +92,7 @@ st.markdown("""
     .stTextInput > div > div > input {
         background-color: rgba(255, 255, 255, 0.9) !important;
         border: 2px solid #fff !important;
-        border-radius: 15px !important;
+        border-radius: 50px !important;
         padding: 12px !important;
         font-size: 16px !important;
             box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1) !important;
@@ -112,7 +112,7 @@ st.markdown("""
         background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%) !important;
         color: white !important;
         border: none !important;
-        border-radius: 25px !important;
+        border-radius: 50px !important;
         padding: 12px 30px !important;
         font-size: 18px !important;
         font-weight: 700 !important;
@@ -131,7 +131,7 @@ st.markdown("""
     /* Info boxes styling */
     .stAlert {
         background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%) !important;
-        border-radius: 15px !important;
+        border-radius: 50px !important;
         border: none !important;
         padding: 15px !important;
         box-shadow: 0 5px 15px rgba(0,0,0,0.2) !important;
@@ -141,7 +141,7 @@ st.markdown("""
     .stSuccess {
         background: linear-gradient(135deg, #84fab0 0%, #8fd3f4 100%) !important;
         color: #155724 !important;
-        border-radius: 15px !important;
+        border-radius: 50px !important;
         padding: 15px !important;
         font-weight: 600 !important;
         animation: slideIn 0.5s ease-out;
@@ -151,7 +151,7 @@ st.markdown("""
     .stError {
         background: linear-gradient(135deg, #fa709a 0%, #fee140 100%) !important;
         color: #721c24 !important;
-        border-radius: 15px !important;
+        border-radius: 50px !important;
         padding: 15px !important;
         font-weight: 600 !important;
         animation: shake 0.5s ease-out;
@@ -194,7 +194,7 @@ st.markdown("""
     [data-testid="stForm"] {
         background: rgba(255, 255, 255, 0.15) !important;
         backdrop-filter: blur(10px) !important;
-        border-radius: 20px !important;
+        border-radius: 50px !important;
         padding: 30px !important;
         border: 2px solid rgba(255, 255, 255, 0.3) !important;
         box-shadow: 0 15px 35px rgba(0,0,0,0.3) !important;
