@@ -167,7 +167,6 @@ if 'logged_in' not in st.session_state:
     st.session_state['show_signup'] = False
     if 'registered_users' not in st.session_state:
         st.session_state['registered_users'] = {'student': 'study123', 'demo': 'demo123'}
-l175
 def check_credentials(username, password):
     # Simple authentication - you can enhance this
     return st.session_state['registered_users'].get(username) == password
