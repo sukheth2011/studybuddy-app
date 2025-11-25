@@ -17,6 +17,10 @@ st.markdown("""
     .stApp {
         background: #f5f5f5;
                 color: #000000;
+                            border-top: 10px solid #000000;
+                                        border-bottom: 10px solid #000000;
+                                                    border-left: 10px solid #000000;
+                                                                border-right: 10px solid #000000;
     }
 
         /* Input fields and text areas with black borders */
