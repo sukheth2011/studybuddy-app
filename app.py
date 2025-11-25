@@ -178,7 +178,7 @@ if st.session_state.get('show_signup', False):
         st.markdown('<p class="main-header">📚 Create New Account</p>', unsafe_allow_html=True)
         st.write("**Fill in the details to create your study account**")
     
-    col1, col2, col3 = st.columns([1,2,1])
+        col1, col2, col3 = st.columns([1,2,1])
     with col2:
         st.markdown("### ✨ Sign Up")
         new_username = st.text_input("Choose Username", placeholder="Enter a username", key="new_user")
