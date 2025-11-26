@@ -215,6 +215,9 @@ if 'logged_in' not in st.session_state:
     st.session_state['logged_in'] = False
     st.session_state['username'] = ''
     st.session_state['show_signup'] = False
+        st.session_state['subscription_tier'] = 'free'  # free or premium
+        st.session_state['daily_queries'] = 0
+    st.session_state['last_query_date'] = date.today()
     if 'registered_users' not in st.session_state:
         st.session_state['registered_users'] = {'student': 'study123', 'demo': 'demo123'}
 def check_credentials(username, password):
@@ -315,8 +318,7 @@ else:
     st.markdown("---")
     
     # Tabs for different features
-    tab1, tab2, tab3 = st.tabs(["💬 AI Chat", "📝 Homework Help", "📚 Exam Prep"])
-    
+    tab1, tab2, tab3, tab4 = st.tabs(["🤖 AI Chat", "📚 Homework Help", "📖 Exam Prep", "💎 Premium"])    
     with tab1:
         st.markdown("### 🤖 AI Study Assistant")
         st.write("Ask me anything about your studies!")
@@ -408,7 +410,38 @@ else:
                 else:
                     st.warning("Please enter a topic!")
     
-    # Logout button
+    # Premium Tab
+    with tab4:
+                st.markdown("💎 **Upgrade to Premium**")
+                st.write("Unlock unlimited access to all features!")
+
+        col1, col2 = st.columns(2)
+
+        with col1:
+                        st.markdown("### 🆓 Free Tier")
+                        st.write("✅ 10 questions per day")
+                        st.write("✅ Basic AI features")
+                        st.write("❌ Limited homework help")
+                        st.write("❌ Ads supported")
+
+        with col2:
+                        st.markdown("### 💎 Premium Tier")
+                        st.write("✅ **Unlimited questions**")
+                        st.write("✅ **Advanced AI features**")
+                        st.write("✅ **Priority support**")
+                        st.write("✅ **No ads**")
+                        st.write("")
+                        st.markdown("**💵 ₹299/month or ₹2999/year**")
+
+        st.markdown("---")
+
+        if st.button("💎 Upgrade to Premium", key="upgrade_btn"):
+                        st.session_state['subscription_tier'] = 'premium'
+                        st.success("🎉 Welcome to Premium! You now have unlimited access to all features!")
+                        st.balloons()
+
+
+# Logout button
     st.markdown("---")
     if st.button("🚪 Logout"):
         st.session_state['logged_in'] = False
