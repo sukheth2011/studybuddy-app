@@ -1,2 +1,2 @@
 Greetings!
-The website's Addresss is https://studybuddy-app-c7tfuafvcxfpzt7z8gprfk.streamlit.app/
+The website's Addresss is https://huggingface.co/spaces/Sukheth/studybuddy
