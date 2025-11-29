@@ -48,14 +48,14 @@ st.markdown("""
                                         font-size: 16px !important;
                                                 font-weight: 600 !important;
                                                         transition: all 0.3s ease !important;
-
+ }
                                                             /* Button hover effects */
                                                                 .stButton > button:hover {
                                                                         transform: translateY(-2px) !important;
                                                                                 box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3) !important;
                                                                                         background-color: #0056b3 !important;
                                                                                             }
-    }
+
     
     /* Tab containers with black borders */
     .stTabs {
